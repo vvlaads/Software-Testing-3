@@ -15,6 +15,7 @@ public class HomePage extends Page {
         waitForVisible(loginButton);
     }
 
+    @Override
     public void open() {
         driver.get("https://timeweb.com/");
     }

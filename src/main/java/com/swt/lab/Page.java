@@ -21,4 +21,15 @@ public abstract class Page {
     }
 
     public abstract void waitUntilLoaded();
+
+    public abstract void open();
+
+    public boolean isOpened() {
+        try {
+            waitUntilLoaded();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

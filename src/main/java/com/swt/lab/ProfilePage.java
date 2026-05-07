@@ -15,16 +15,8 @@ public class ProfilePage extends Page {
         waitForVisible(accountButton);
     }
 
+    @Override
     public void open() {
         driver.get("https://hosting.timeweb.ru/");
-    }
-
-    public boolean isOpened() {
-        try {
-            waitUntilLoaded();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

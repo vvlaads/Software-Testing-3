@@ -19,6 +19,7 @@ public class LoginPage extends Page {
         waitForVisible(loginButton);
     }
 
+    @Override
     public void open() {
         driver.get("https://hosting.timeweb.ru/login");
     }
