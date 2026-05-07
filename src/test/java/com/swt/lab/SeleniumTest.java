@@ -102,6 +102,10 @@ public class SeleniumTest {
             String login = EnvReader.get("LOGIN");
             String password = EnvReader.get("PASSWORD");
 
+            if (login == null || password == null) {
+                log.warn(".env file doesn't contain LOGIN or PASSWORD");
+            }
+
             loginPage.waitUntilLoaded();
             loginPage.login(login, password);
 
