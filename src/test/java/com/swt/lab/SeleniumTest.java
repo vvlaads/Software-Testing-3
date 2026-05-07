@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SeleniumTest {
@@ -31,14 +30,6 @@ public class SeleniumTest {
         }
     }
 
-    @Test
-    public void hello() {
-        driverList.forEach(webDriver -> {
-            webDriver.get("http://timeweb.com");
-            assertEquals("Хостинг-провайдер - Купить домен и хостинг у аккредитованного регистратора", webDriver.getTitle());
-            webDriver.quit();
-        });
-    }
 
     private void switchToNewTab(WebDriver driver) {
         String originalWindow = driver.getWindowHandle();
@@ -52,6 +43,17 @@ public class SeleniumTest {
                 return;
             }
         }
+    }
+
+    @Test
+    public void homeTest() {
+        driverList.forEach(webDriver -> {
+            HomePage homePage = new HomePage(webDriver);
+            homePage.open();
+
+            assertTrue(homePage.isOpened());
+            webDriver.quit();
+        });
     }
 
     @Test
