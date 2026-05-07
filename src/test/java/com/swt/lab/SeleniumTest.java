@@ -5,11 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SeleniumTest {
     public List<WebDriver> driverList;
@@ -33,6 +36,44 @@ public class SeleniumTest {
         driverList.forEach(webDriver -> {
             webDriver.get("http://timeweb.com");
             assertEquals("Хостинг-провайдер - Купить домен и хостинг у аккредитованного регистратора", webDriver.getTitle());
+            webDriver.quit();
+        });
+    }
+
+    private void switchToNewTab(WebDriver driver) {
+        String originalWindow = driver.getWindowHandle();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> d.getWindowHandles().size() > 1);
+
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(originalWindow)) {
+                driver.switchTo().window(windowHandle);
+                return;
+            }
+        }
+    }
+
+    @Test
+    public void loginTest() {
+        driverList.forEach(webDriver -> {
+            HomePage homePage = new HomePage(webDriver);
+            homePage.open();
+            homePage.waitUntilLoaded();
+            homePage.clickLogin();
+
+            switchToNewTab(webDriver);
+
+            String login = EnvReader.get("LOGIN");
+            String password = EnvReader.get("PASSWORD");
+
+            LoginPage loginPage = new LoginPage(webDriver);
+            loginPage.waitUntilLoaded();
+            loginPage.login(login, password);
+
+            ProfilePage profilePage = new ProfilePage(webDriver);
+            assertTrue(profilePage.isOpened());
+
             webDriver.quit();
         });
     }

@@ -12,6 +12,13 @@ public class LoginPage extends Page {
         super(driver);
     }
 
+    @Override
+    public void waitUntilLoaded() {
+        waitForVisible(loginInput);
+        waitForVisible(passwordInput);
+        waitForVisible(loginButton);
+    }
+
     public void open() {
         driver.get("https://hosting.timeweb.ru/login");
     }
