@@ -26,3 +26,6 @@ replay_pid*
 # Build files
 .idea/
 target/
+
+# Environment
+.env
